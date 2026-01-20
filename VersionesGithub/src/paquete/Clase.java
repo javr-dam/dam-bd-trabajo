@@ -1,24 +1,29 @@
 package paquete;
-
+import java.util.Scanner;
 public class Clase {
 
 	/*
-    * Javier Enríquez
-    * @since 1.3
-    * @version 1.3
-    * Versión con una función mas expandida.
+    * Merye Dahmani
+    * @since 1.4
+    * @version 1.4
+    * Mejora de las primeras verisones
+
     */
 	
-	static void primeraFuncion() {
-		int num1 = 6, num2 = 7;
-		System.out.printf("%d + %d = %d\n", num1, num2, num1 + num2);
-		System.out.printf("%d - %d = %d\n", num1, num2, num1 - num2);
-		System.out.printf("%d * %d = %d\n", num1, num2, num1 * num2);
-		System.out.printf("%d / %d = %d\n", num1, num2, num1 / num2);
-	}
-	
-	public static void main(String[] args) {
-		primeraFuncion();
-	}
+        static void primeraFuncion() {
+            Scanner sc = new Scanner(System.in);
+            
+            int num1  = sc.nextInt();
+            
+            int num2  = sc.nextInt();
+            System.out.printf("%d + %d = %d\n", num1, num2, num1 + num2);
+            System.out.printf("%d - %d = %d\n", num1, num2, num1 - num2);
+            System.out.printf("%d * %d = %d\n", num1, num2, num1 * num2);
+            System.out.printf("%d / %d = %d\n", num1, num2, num1 / num2);
+        }
 
+    public static void main(String[] args){
+
+        primeraFuncion();
+    }
 }
