@@ -1,81 +1,75 @@
 package paquete;
 
 import java.util.Scanner;
+import java.util.Random;
 
 public class Clase {
-
+    // Declaraciones importantes
+    static Scanner scanner = new Scanner(System.in);
+    static Random random = new Random();
+    static char[] simbolos = "+-*/".toCharArray();
+    static double[] resultados = new double[4];
+    static String respuestaContinuar = "Y";
+    static double resultadoRandom = 0.0f;
+ 
     /*
-     * Félix Trejo Baquero
-     * @since 1.9
-     * @version 1.9
-     * Programa para operaciones básicas y guardar resultados en un array
+     * Ignacio Jimenez Alonso
+     * @since 2.0
+     * @version 2.0
+     * Programa de operaciones basicas y guardado de valores en array + Revamp total de codigo +
+     * operaciones aleatorias aplicadas y sumadas a una variable.
      */
-    static void primeraFuncion() {
-        Scanner sc = new Scanner(System.in);
-        int[] resultados = new int[5]; // Array para guardar resultados
-        int indice = 0; // Índice inicial
-        boolean continuar = true; // Control del bucle
 
-        while (continuar && indice < resultados.length) {
-            System.out.println("Introduce el primer valor:");
-            int num1 = sc.nextInt();
-            System.out.println("Introduce el segundo valor:");
-            int num2 = sc.nextInt();
+    static void primeraFuncion(){
+        double num1 = 0.0, num2 = 0.0;
+        while(respuestaContinuar.equals("Y")){ // Continuar bucle mientras respuesta sea Y
 
-            int suma = num1 + num2;
-            System.out.printf("%d + %d = %d\n", num1, num2, suma);
-            resultados[indice] = suma; // Guardamos el resultado
-            indice++;
+            System.out.println("Introduce el primer valor: ");
+            num1 = scanner.nextDouble();
 
-            int resta = num1 - num2;
-            System.out.printf("%d - %d = %d\n", num1, num2, resta);
-            if (indice < resultados.length) {
-                resultados[indice] = resta;
-                indice++;
+            System.out.println("Introduce el segunda valor: ");
+            num2 = scanner.nextDouble();
+            
+            scanner.nextLine(); // limpiar salto de linea
+
+            // Elige entre suma resta multiplicacion aleatoriamente y se le suma a una variable
+            resultadoRandom += operar(num1, simbolos[random.nextInt(3)], num2);
+
+            for(int i=0;i<simbolos.length;i++){
+                resultados[i] = operar(num1, simbolos[i], num2);
+                if(!Double.isNaN(resultados[i])) // No ha dividido entre 0
+                    System.out.printf("%.2f %c %.2f = %.2f\n", num1, simbolos[i], num2, resultados[i]);
+                else
+                    System.out.printf("Dividir %.2f entre %.2f es ilogico, no se puede dividir entre 0\n", num1, num2);
             }
 
-            int multiplicacion = num1 * num2;
-            System.out.printf("%d * %d = %d\n", num1, num2, multiplicacion);
-            if (indice < resultados.length) {
-                resultados[indice] = multiplicacion;
-                indice++;
-            }
-
-            if (num2 != 0) {
-                int division = num1 / num2;
-                System.out.printf("%d / %d = %d\n", num1, num2, division);
-                if (indice < resultados.length) {
-                    resultados[indice] = division;
-                    indice++;
-                }
-            } else {
-                System.out.println("No se puede dividir entre 0");
-            }
-
-            int otraOp = (num1 + num2) * 2;
-            System.out.printf("(%d + %d) * 2 = %d\n", num1, num2, otraOp);
-            if (indice < resultados.length) {
-                resultados[indice] = otraOp;
-                indice++;
-            }
-
-            if (indice < resultados.length) {
-                System.out.println("¿Quieres hacer otra operación? (s/n)");
-                char respuesta = sc.next().charAt(0);
-                if (respuesta == 'n' || respuesta == 'N') {
-                    continuar = false;
-                }
-            } else {
-                System.out.println("Se alcanzó el límite de resultados guardados.");
-            }
+            // Bucle para saber si continuar, solo acepta Y o N, sino volvera a preguntar
+            do{
+                System.out.print("Quiere continuar con el programa? (Y/N): ");
+                respuestaContinuar = scanner.nextLine().toUpperCase(); // Volver la respuesta a mayuscula
+            }while(!respuestaContinuar.equals("Y") && !respuestaContinuar.equals("N"));
         }
 
-        System.out.println("\nResultados guardados:");
-        for (int i = 0; i < indice; i++) {
-            System.out.println("Posición " + i + ": " + resultados[i]);
+        System.out.println("Ultimos resultados finales guardados: ");
+        for(int i=0;i<simbolos.length;i++){
+            if(!Double.isNaN(resultados[i]))
+                System.out.printf("%.2f %c %.2f = %.2f\n", num1, simbolos[i], num2, resultados[i]);
         }
 
-        sc.close();
+        System.out.printf("Valor aleatorio acumulado: %.2f", resultadoRandom);
+        
+    }
+
+    static double operar(double num1, char op, double num2){
+        switch(op){
+            case '+': return num1+num2;
+            case '-': return num1-num2;
+            case '*': return num1*num2;
+            case '/':
+                if(num2 == 0) return Double.NaN;
+                return num1/num2;
+        }
+        return 0.0; // sshhh compiler
     }
 
     public static void main(String[] args) {
