@@ -8,17 +8,44 @@ public class Clase {
     static Scanner scanner = new Scanner(System.in);
     static Random random = new Random();
     static char[] simbolos = "+-*/".toCharArray();
- ramafran
 
     /*
-     * Francisco Javier Rodriguez Meneses
-     * @since 2.5
-     * @version 2.5
-     * Se añade control de excepciones para evitar errores si el usuario introduce letras.
+     * Dario Baquero
+     * @since 2.8
+     * @version 2.8
+     * Menú para elegir modo
      */
 
-    static void primeraFuncion(){
-        double num1 = 0.0, num2 = 0.0;
+    static void menu() {
+        int opcion;
+
+        do {
+            System.out.println("\n--- MENÚ ---");
+            System.out.println("1) Operaciones aleatorias (la máquina elige el operador)");
+            System.out.println("2) Tú eliges la operación");
+            System.out.println("3) Salir");
+            System.out.print("Elige una opción: ");
+
+            opcion = scanner.nextInt();
+
+            switch(opcion) {
+                case 1:
+                    modoAleatorio();
+                    break;
+                case 2:
+                    modoManual();
+                    break;
+                case 3:
+                    System.out.println("Adiós. Gracias por usar el programa.");
+                    break;
+                default:
+                    System.out.println("Opción no válida. Intenta de nuevo.");
+            }
+        } while(opcion != 3);
+    }
+
+    static void modoAleatorio(){
+        double num1, num2, resultado;
         int numeroDeOps;
         char operacionARealizar;
 
@@ -26,132 +53,80 @@ public class Clase {
         numeroDeOps = scanner.nextInt();
 
         for(int i = 0; i < numeroDeOps; i++){
-
             operacionARealizar = simbolos[random.nextInt(4)];
-            System.out.printf("Se va a realizar la siguiente operacion: (%c)\n", operacionARealizar);
+            System.out.printf("Operación elegida: %c\n", operacionARealizar);
 
-            double resultado;
+            num1 = pedirNumero("Introduce el primer numero: ");
+            num2 = pedirNumero("Introduce el segundo numero: ");
 
-            while (true) {
-
-                // Pedir primer número
-                while(true){
-                    try{
-                        System.out.print("Introduce el primer numero: ");
-                        num1 = scanner.nextDouble();
-                        break;
-                    } catch (InputMismatchException e){
-                        System.out.println("ERROR: Debes introducir un número.");
-                        scanner.next();
-                    }
-                }
-
-                // Pedir segundo número
-                while(true){
-                    try{
-                        System.out.print("Introduce el segundo numero: ");
-                        num2 = scanner.nextDouble();
-                        break;
-                    } catch (InputMismatchException e){
-                        System.out.println("ERROR: Debes introducir un número.");
-                        scanner.next();
-                    }
-                }
-
-                // Comprobaciones
-                if (operacionARealizar == '/' && num2 == 0) {
-                    System.out.println("ERROR: No se puede dividir entre 0. Repite la operación.");
-                    continue;
-                }
-
-                resultado = operar(num1, operacionARealizar, num2);
-
-                if (resultado < 0) {
-                    System.out.println("ERROR: El resultado no puede ser negativo. Repite la operación.");
-                } else {
-                    System.out.printf("%.2f %c %.2f = %.2f\n",
-                            num1, operacionARealizar, num2, resultado);
-                    break; // operación válida
-                }
-            }}  
-
-    static int numeroDeEjecuciones;
-    static double num1, num2;
- 
-    /*
-     * Ignacio Jimenez Alonso
-     * @since 2.2
-     * @version 2.2
-     * Usuario decide si maquina decide operadores o pone numeros aleatorios
-     */
-
-    static void usuarioOpera(){
-        int eleccion = 0;
-        num1 = random.nextDouble(100.0); // Limitar a un rango asequible
-        num2 = random.nextDouble(100.0);
-
-        System.out.printf("num1: %.2f | num2: %.2f\n", num1, num2);
-
-        // imprimir menu
-        do{
-            for(int op=0;op<simbolos.length;op++){
-                System.out.printf("%d) Operador: %c\n", op, simbolos[op]);
+            if (operacionARealizar == '/' && num2 == 0) {
+                System.out.println("ERROR: No se puede dividir entre 0. Se repite la operación.");
+                i--; // repetir
+                continue;
             }
-            System.out.print("Respuesta: ");
-            eleccion = scanner.nextInt(); // Sensible a errores de tipo char etc...
-        }while(eleccion < 0 || eleccion >= simbolos.length);
 
-        System.out.printf(
-            "%.2f %c %.2f = %.2f\n",
-            num1, simbolos[eleccion], num2, operar(num1, simbolos[eleccion], num2)
-        );
+            resultado = operar(num1, operacionARealizar, num2);
+
+            if (resultado < 0) {
+                System.out.println("ERROR: El resultado no puede ser negativo. Se repite la operación.");
+                i--; // repetir
+            } else {
+                System.out.printf("%.2f %c %.2f = %.2f\n", num1, operacionARealizar, num2, resultado);
+            }
+        }
     }
 
-    static void maquinaOpera(){
+    static void modoManual(){
+        double num1, num2, resultado;
+        int numeroDeOps;
         char operacionARealizar;
-        operacionARealizar = simbolos[random.nextInt(4)];
 
-        System.out.printf("Se va a realizar la siguiente operacion: (%c)\n", operacionARealizar);
+        System.out.print("Introduce cuantas operaciones quieres hacer: ");
+        numeroDeOps = scanner.nextInt();
 
-        System.out.print("Introduce el primer numero: ");
-        num1 = scanner.nextDouble();
-            
-        System.out.print("Introduce el segundo numero: ");
-        num2 = scanner.nextDouble();
+        for(int i = 0; i < numeroDeOps; i++){
+            operacionARealizar = elegirOperacion();
 
-        if(operacionARealizar == '/' && num2 == 0){
-            System.out.printf(
-            "No se puede realizar la operacion %.2f %c %.2f " +
-            "ya que no se puede dividir entre 0\n", num1, operacionARealizar, num2
-        );
-        }else{
-            System.out.printf("%.2f %c %.2f = %.2f\n",
-                num1, operacionARealizar, num2, operar(num1, operacionARealizar, num2)
-            );
- main
-        }
+            num1 = pedirNumero("Introduce el primer numero: ");
+            num2 = pedirNumero("Introduce el segundo numero: ");
 
+            if (operacionARealizar == '/' && num2 == 0) {
+                System.out.println("ERROR: No se puede dividir entre 0. Se repite la operación.");
+                i--;
+                continue;
+            }
 
-    static void programa(boolean usuarioOpera){
-        System.out.print("Introduce cuantas ejecuciones quieres realizar: ");
-        numeroDeEjecuciones = scanner.nextInt();
+            resultado = operar(num1, operacionARealizar, num2);
 
-        scanner.nextLine(); // limpiar scanner
-
-        for(int i=0;i<numeroDeEjecuciones;i++){
-            if(usuarioOpera) usuarioOpera();
-            else maquinaOpera();
+            if (resultado < 0) {
+                System.out.println("ERROR: El resultado no puede ser negativo. Se repite la operación.");
+                i--; // repetir
+            } else {
+                System.out.printf("%.2f %c %.2f = %.2f\n", num1, operacionARealizar, num2, resultado);
+            }
         }
     }
 
-    static void primeraFuncion(){
-        String respuestaUsuario;
-        do{
-            System.out.print("Quieres elegir las operaciones? (Y/N): ");
-            respuestaUsuario = scanner.nextLine().toUpperCase();
-        }while(!respuestaUsuario.equals("Y") && !respuestaUsuario.equals("N"));
+    static double pedirNumero(String mensaje) {
+        while(true){
+            try{
+                System.out.print(mensaje);
+                return scanner.nextDouble();
+            } catch (InputMismatchException e){
+                System.out.println("ERROR: Debes introducir un número.");
+                scanner.next();
+            }
+        }
+    }
 
-        programa(respuestaUsuario.equals("Y"));
+    static char elegirOperacion() {
+        char op;
+        do {
+            System.out.print("Elige la operación (+, -, *, /): ");
+            op = scanner.next().charAt(0);
+        } while(op != '+' && op != '-' && op != '*' && op != '/');
+
+        return op;
     }
 
     static double operar(double num1, char op, double num2){
@@ -159,15 +134,13 @@ public class Clase {
             case '+': return num1+num2;
             case '-': return num1-num2;
             case '*': return num1*num2;
-            case '/':
-                if(num2 == 0) return Double.NaN;
-                return num1/num2;
+            case '/': return num1/num2;
         }
-        return 0.0; // sshhh compiler
+        return 0.0;
     }
 
     public static void main(String[] args) {
-          System.out.println("Bienvenido al programa de       operaciones aleatorias");
-    primeraFuncion();
+        System.out.println("Bienvenido al programa de operaciones");
+        menu();
     }
 }
