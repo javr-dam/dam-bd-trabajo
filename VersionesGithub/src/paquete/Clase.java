@@ -11,13 +11,41 @@ public class Clase {
 
     /*
      * Dario Baquero
-     * @since 2.7
-     * @version 2.7
-     * Se añade opción para elegir la operación a realizar.
+     * @since 2.8
+     * @version 2.8
+     * Menú para elegir modo
      */
 
-    static void primeraFuncion(){
-        double num1 = 0.0, num2 = 0.0;
+    static void menu() {
+        int opcion;
+
+        do {
+            System.out.println("\n--- MENÚ ---");
+            System.out.println("1) Operaciones aleatorias (la máquina elige el operador)");
+            System.out.println("2) Tú eliges la operación");
+            System.out.println("3) Salir");
+            System.out.print("Elige una opción: ");
+
+            opcion = scanner.nextInt();
+
+            switch(opcion) {
+                case 1:
+                    modoAleatorio();
+                    break;
+                case 2:
+                    modoManual();
+                    break;
+                case 3:
+                    System.out.println("Adiós. Gracias por usar el programa.");
+                    break;
+                default:
+                    System.out.println("Opción no válida. Intenta de nuevo.");
+            }
+        } while(opcion != 3);
+    }
+
+    static void modoAleatorio(){
+        double num1, num2, resultado;
         int numeroDeOps;
         char operacionARealizar;
 
@@ -25,60 +53,80 @@ public class Clase {
         numeroDeOps = scanner.nextInt();
 
         for(int i = 0; i < numeroDeOps; i++){
+            operacionARealizar = simbolos[random.nextInt(4)];
+            System.out.printf("Operación elegida: %c\n", operacionARealizar);
 
-            // Pide al usuario elegir operación
-            System.out.print("Elige la operación (+, -, *, /): ");
-            operacionARealizar = scanner.next().charAt(0);
+            num1 = pedirNumero("Introduce el primer numero: ");
+            num2 = pedirNumero("Introduce el segundo numero: ");
 
-            // Validar operación
-            while (operacionARealizar != '+' && operacionARealizar != '-' &&
-                   operacionARealizar != '*' && operacionARealizar != '/') {
-                System.out.print("Operación no válida. Elige (+, -, *, /): ");
-                operacionARealizar = scanner.next().charAt(0);
+            if (operacionARealizar == '/' && num2 == 0) {
+                System.out.println("ERROR: No se puede dividir entre 0. Se repite la operación.");
+                i--; // repetir
+                continue;
             }
 
-            double resultado;
+            resultado = operar(num1, operacionARealizar, num2);
 
-            while (true) {
-
-                while(true){
-                    try{
-                        System.out.print("Introduce el primer numero: ");
-                        num1 = scanner.nextDouble();
-                        break;
-                    } catch (InputMismatchException e){
-                        System.out.println("ERROR: Debes introducir un número.");
-                        scanner.next();
-                    }
-                }
-
-                while(true){
-                    try{
-                        System.out.print("Introduce el segundo numero: ");
-                        num2 = scanner.nextDouble();
-                        break;
-                    } catch (InputMismatchException e){
-                        System.out.println("ERROR: Debes introducir un número.");
-                        scanner.next();
-                    }
-                }
-
-                if (operacionARealizar == '/' && num2 == 0) {
-                    System.out.println("ERROR: No se puede dividir entre 0. Repite la operación.");
-                    continue;
-                }
-
-                resultado = operar(num1, operacionARealizar, num2);
-
-                if (resultado < 0) {
-                    System.out.println("ERROR: El resultado no puede ser negativo. Repite la operación.");
-                } else {
-                    System.out.printf("%.2f %c %.2f = %.2f\n",
-                            num1, operacionARealizar, num2, resultado);
-                    break; // operación válida
-                }
+            if (resultado < 0) {
+                System.out.println("ERROR: El resultado no puede ser negativo. Se repite la operación.");
+                i--; // repetir
+            } else {
+                System.out.printf("%.2f %c %.2f = %.2f\n", num1, operacionARealizar, num2, resultado);
             }
         }
+    }
+
+    static void modoManual(){
+        double num1, num2, resultado;
+        int numeroDeOps;
+        char operacionARealizar;
+
+        System.out.print("Introduce cuantas operaciones quieres hacer: ");
+        numeroDeOps = scanner.nextInt();
+
+        for(int i = 0; i < numeroDeOps; i++){
+            operacionARealizar = elegirOperacion();
+
+            num1 = pedirNumero("Introduce el primer numero: ");
+            num2 = pedirNumero("Introduce el segundo numero: ");
+
+            if (operacionARealizar == '/' && num2 == 0) {
+                System.out.println("ERROR: No se puede dividir entre 0. Se repite la operación.");
+                i--;
+                continue;
+            }
+
+            resultado = operar(num1, operacionARealizar, num2);
+
+            if (resultado < 0) {
+                System.out.println("ERROR: El resultado no puede ser negativo. Se repite la operación.");
+                i--; // repetir
+            } else {
+                System.out.printf("%.2f %c %.2f = %.2f\n", num1, operacionARealizar, num2, resultado);
+            }
+        }
+    }
+
+    static double pedirNumero(String mensaje) {
+        while(true){
+            try{
+                System.out.print(mensaje);
+                return scanner.nextDouble();
+            } catch (InputMismatchException e){
+                System.out.println("ERROR: Debes introducir un número.");
+                scanner.next();
+            }
+        }
+    }
+
+    static char elegirOperacion() {
+        char op;
+        do {
+            System.out.print("Elige la operación (+, -, *, /): ");
+            op = scanner.next().charAt(0);
+        } while(op != '+' && op != '-' && op != '*' && op != '/');
+
+        return op;
     }
 
     static double operar(double num1, char op, double num2){
@@ -86,16 +134,13 @@ public class Clase {
             case '+': return num1+num2;
             case '-': return num1-num2;
             case '*': return num1*num2;
-            case '/':
-                if(num2 == 0) return Double.NaN;
-                return num1/num2;
+            case '/': return num1/num2;
         }
         return 0.0;
     }
 
     public static void main(String[] args) {
-        System.out.println("Bienvenido al programa de operaciones aleatorias");
-        primeraFuncion();
-        System.out.println("Adiós. Gracias por usar el programa.");
+        System.out.println("Bienvenido al programa de operaciones");
+        menu();
     }
 }
