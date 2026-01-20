@@ -21,6 +21,7 @@ public class Clase {
  } else {
  System.out.println("No se puede dividir entre 0");
  }
+ int u=5;
  System.out.printf("(%d + %d) * 2 = %d\n", num1, num2, (num1 + num2) * 2);
  sc.close();
  }
