@@ -8,56 +8,44 @@ public class Clase {
     static Scanner scanner = new Scanner(System.in);
     static Random random = new Random();
     static char[] simbolos = "+-*/".toCharArray();
-    static double[] resultados = new double[4];
-    static String respuestaContinuar = "Y";
-    static double resultadoRandom = 0.0f;
  
     /*
      * Ignacio Jimenez Alonso
-     * @since 2.0
-     * @version 2.0
-     * Programa de operaciones basicas y guardado de valores en array + Revamp total de codigo +
-     * operaciones aleatorias aplicadas y sumadas a una variable.
+     * @since 2.1
+     * @version 2.1
+     * Programa de operaciones aleatorias aplicadas a 2 numeros introducidos por el usuario
      */
 
     static void primeraFuncion(){
         double num1 = 0.0, num2 = 0.0;
-        while(respuestaContinuar.equals("Y")){ // Continuar bucle mientras respuesta sea Y
-
-            System.out.println("Introduce el primer valor: ");
-            num1 = scanner.nextDouble();
-
-            System.out.println("Introduce el segunda valor: ");
-            num2 = scanner.nextDouble();
-            
-            scanner.nextLine(); // limpiar salto de linea
-
-            // Elige entre suma resta multiplicacion aleatoriamente y se le suma a una variable
-            resultadoRandom += operar(num1, simbolos[random.nextInt(3)], num2);
-
-            for(int i=0;i<simbolos.length;i++){
-                resultados[i] = operar(num1, simbolos[i], num2);
-                if(!Double.isNaN(resultados[i])) // No ha dividido entre 0
-                    System.out.printf("%.2f %c %.2f = %.2f\n", num1, simbolos[i], num2, resultados[i]);
-                else
-                    System.out.printf("Dividir %.2f entre %.2f es ilogico, no se puede dividir entre 0\n", num1, num2);
-            }
-
-            // Bucle para saber si continuar, solo acepta Y o N, sino volvera a preguntar
-            do{
-                System.out.print("Quiere continuar con el programa? (Y/N): ");
-                respuestaContinuar = scanner.nextLine().toUpperCase(); // Volver la respuesta a mayuscula
-            }while(!respuestaContinuar.equals("Y") && !respuestaContinuar.equals("N"));
-        }
-
-        System.out.println("Ultimos resultados finales guardados: ");
-        for(int i=0;i<simbolos.length;i++){
-            if(!Double.isNaN(resultados[i]))
-                System.out.printf("%.2f %c %.2f = %.2f\n", num1, simbolos[i], num2, resultados[i]);
-        }
-
-        System.out.printf("Valor aleatorio acumulado: %.2f", resultadoRandom);
+        int numeroDeOps;
+        char operacionARealizar;
+        System.out.print("Introduce cuantas operaciones aleatorias quieres hacer: ");
+        numeroDeOps = scanner.nextInt();
         
+        for(int i=0;i<numeroDeOps;i++){
+
+            operacionARealizar = simbolos[random.nextInt(4)];
+
+            System.out.printf("Se va a realizar la siguiente operacion: (%c)\n", operacionARealizar);
+
+            System.out.print("Introduce el primer numero: ");
+            num1 = scanner.nextDouble();
+            
+            System.out.print("Introduce el segundo numero: ");
+            num2 = scanner.nextDouble();
+
+            if(operacionARealizar == '/' && num2 == 0){
+                System.out.printf(
+                "No se puede realizar la operacion %.2f %c %.2f " +
+                "ya que no se puede dividir entre 0\n", num1, operacionARealizar, num2
+            );
+            }else{
+                System.out.printf("%.2f %c %.2f = %.2f\n",
+                    num1, operacionARealizar, num2, operar(num1, operacionARealizar, num2)
+                );
+            }
+        }
     }
 
     static double operar(double num1, char op, double num2){
@@ -66,7 +54,7 @@ public class Clase {
             case '-': return num1-num2;
             case '*': return num1*num2;
             case '/':
-                if(num2 == 0) return Double.NaN;
+                if(num2 == 0) return Double.NaN; // Este ya NO deberia suceder
                 return num1/num2;
         }
         return 0.0; // sshhh compiler
