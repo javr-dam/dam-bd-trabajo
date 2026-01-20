@@ -10,10 +10,10 @@ public class Clase {
     static char[] simbolos = "+-*/".toCharArray();
 
     /*
-     * Nombre
-     * @since 2.6
-     * @version 2.6
-     * Añade una despedida al sistema
+     * Francisco Javier Rodriguez Meneses
+     * @since 2.3
+     * @version 2.3
+     * Se añade control de excepciones para evitar errores si el usuario introduce letras.
      */
 
     static void primeraFuncion(){
@@ -24,54 +24,41 @@ public class Clase {
         System.out.print("Introduce cuantas operaciones aleatorias quieres hacer: ");
         numeroDeOps = scanner.nextInt();
 
-        for(int i = 0; i < numeroDeOps; i++){
+        for(int i=0;i<numeroDeOps;i++){
 
             operacionARealizar = simbolos[random.nextInt(4)];
             System.out.printf("Se va a realizar la siguiente operacion: (%c)\n", operacionARealizar);
-
-            double resultado;
-
-            while (true) {
-
-                
-                while(true){
-                    try{
-                        System.out.print("Introduce el primer numero: ");
-                        num1 = scanner.nextDouble();
-                        break;
-                    } catch (InputMismatchException e){
-                        System.out.println("ERROR: Debes introducir un número.");
-                        scanner.next();
-                    }
+            while(true){
+                try{
+                    System.out.print("Introduce el primer numero: ");
+                    num1 = scanner.nextDouble();
+                    break;
+                } catch (InputMismatchException e){
+                    System.out.println("ERROR: Debes introducir un número.");
+                    scanner.next(); // limpiar el buffer
                 }
+            }
 
-              
-                while(true){
-                    try{
-                        System.out.print("Introduce el segundo numero: ");
-                        num2 = scanner.nextDouble();
-                        break;
-                    } catch (InputMismatchException e){
-                        System.out.println("ERROR: Debes introducir un número.");
-                        scanner.next();
-                    }
+            while(true){
+                try{
+                    System.out.print("Introduce el segundo numero: ");
+                    num2 = scanner.nextDouble();
+                    break;
+                } catch (InputMismatchException e){
+                    System.out.println("ERROR: Debes introducir un número.");
+                    scanner.next(); // limpiar el buffer
                 }
+            }
 
-              
-                if (operacionARealizar == '/' && num2 == 0) {
-                    System.out.println("ERROR: No se puede dividir entre 0. Repite la operación.");
-                    continue;
-                }
-
-                resultado = operar(num1, operacionARealizar, num2);
-
-                if (resultado < 0) {
-                    System.out.println("ERROR: El resultado no puede ser negativo. Repite la operación.");
-                } else {
-                    System.out.printf("%.2f %c %.2f = %.2f\n",
-                            num1, operacionARealizar, num2, resultado);
-                    break; // operación válida
-                }
+            if(operacionARealizar == '/' && num2 == 0){
+                System.out.printf(
+                    "No se puede realizar la operacion %.2f %c %.2f " +
+                    "ya que no se puede dividir entre 0\n", num1, operacionARealizar, num2
+                );
+            } else {
+                System.out.printf("%.2f %c %.2f = %.2f\n",
+                    num1, operacionARealizar, num2, operar(num1, operacionARealizar, num2)
+                );
             }
         }
     }
