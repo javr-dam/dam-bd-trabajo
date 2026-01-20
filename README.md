@@ -21,4 +21,5 @@ Cada integrante del grupo trabaja en su propia rama y posteriormente integra sus
 - Javier Enríquez
 - Nacho Jiménez
 - Felix Trejo
-- Meriem
+- Merye Dahmani
+- Fran Rodríguez Meneses
