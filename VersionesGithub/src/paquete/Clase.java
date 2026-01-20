@@ -10,10 +10,10 @@ public class Clase {
     static char[] simbolos = "+-*/".toCharArray();
 
     /*
-     * Nombre
-     * @since 2.6
-     * @version 2.6
-     * Añade una despedida al sistema
+     * Dario Baquero
+     * @since 2.7
+     * @version 2.7
+     * Se añade opción para elegir la operación a realizar.
      */
 
     static void primeraFuncion(){
@@ -26,14 +26,21 @@ public class Clase {
 
         for(int i = 0; i < numeroDeOps; i++){
 
-            operacionARealizar = simbolos[random.nextInt(4)];
-            System.out.printf("Se va a realizar la siguiente operacion: (%c)\n", operacionARealizar);
+            // Pide al usuario elegir operación
+            System.out.print("Elige la operación (+, -, *, /): ");
+            operacionARealizar = scanner.next().charAt(0);
+
+            // Validar operación
+            while (operacionARealizar != '+' && operacionARealizar != '-' &&
+                   operacionARealizar != '*' && operacionARealizar != '/') {
+                System.out.print("Operación no válida. Elige (+, -, *, /): ");
+                operacionARealizar = scanner.next().charAt(0);
+            }
 
             double resultado;
 
             while (true) {
 
-                
                 while(true){
                     try{
                         System.out.print("Introduce el primer numero: ");
@@ -45,7 +52,6 @@ public class Clase {
                     }
                 }
 
-              
                 while(true){
                     try{
                         System.out.print("Introduce el segundo numero: ");
@@ -57,7 +63,6 @@ public class Clase {
                     }
                 }
 
-              
                 if (operacionARealizar == '/' && num2 == 0) {
                     System.out.println("ERROR: No se puede dividir entre 0. Repite la operación.");
                     continue;
@@ -85,7 +90,7 @@ public class Clase {
                 if(num2 == 0) return Double.NaN;
                 return num1/num2;
         }
-        return 0.0; 
+        return 0.0;
     }
 
     public static void main(String[] args) {
