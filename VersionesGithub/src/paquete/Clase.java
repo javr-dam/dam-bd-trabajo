@@ -11,9 +11,9 @@ public class Clase {
 
     /*
      * Javier Gil Puian
-     * @since 2.9
-     * @version 2.9
-     * Menú para elegir modo
+     * @since 3.0
+     * @version 3.0
+     * Mejora de codigo,pulido
      */
 
     static void menu() {
@@ -48,7 +48,7 @@ public class Clase {
         double num1, num2, resultado;
         int numeroDeOps;
         char operacionARealizar;
-        int contadorOperaciones = 0; // <-- añadido
+        int contadorOperaciones = 0; // 
 
         System.out.print("Introduce cuantas operaciones aleatorias quieres hacer: ");
         numeroDeOps = scanner.nextInt();
@@ -77,7 +77,7 @@ public class Clase {
             }
         }
 
-        System.out.println("Operaciones realizadas: " + contadorOperaciones); // <-- añadido
+        System.out.println("Operaciones realizadas: " + contadorOperaciones); 
     }
 
 
@@ -85,6 +85,7 @@ public class Clase {
         double num1, num2, resultado;
         int numeroDeOps;
         char operacionARealizar;
+        int contadorOperaciones = 0; // <-- añadido
 
         System.out.print("Introduce cuantas operaciones quieres hacer: ");
         numeroDeOps = scanner.nextInt();
@@ -108,9 +109,13 @@ public class Clase {
                 i--; // repetir
             } else {
                 System.out.printf("%.2f %c %.2f = %.2f\n", num1, operacionARealizar, num2, resultado);
+                contadorOperaciones++; // <-- añadido
             }
         }
+
+        System.out.println("Operaciones realizadas: " + contadorOperaciones); // <-- añadido
     }
+
 
     static double pedirNumero(String mensaje) {
         while(true){

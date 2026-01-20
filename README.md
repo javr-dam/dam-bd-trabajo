@@ -1,7 +1,7 @@
-# dam-bd-trabajo
+# dam-entorno-trabajo
 
 ## 📖 Repositorio
-Este repositorio ha sido creado para realizar la tarea de la asignatura Bases de Datos sobre Git y GitHub. 
+Este repositorio ha sido creado para realizar la tarea de la asignatura Entorno de Desarrollo sobre Git y GitHub. 
 Cada integrante del grupo trabaja en su propia rama y posteriormente integra sus cambios en la rama principal (main), siguiendo un modelo de trabajo integrador.
 
 ## 🎯 Objetivos
@@ -21,4 +21,6 @@ Cada integrante del grupo trabaja en su propia rama y posteriormente integra sus
 - Javier Enríquez
 - Nacho Jiménez
 - Felix Trejo
-- Meriem
+- Merye Dahmani
+- Fran Rodríguez Meneses
+- Dario Baquero
