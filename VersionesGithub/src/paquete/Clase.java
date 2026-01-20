@@ -11,9 +11,9 @@ public class Clase {
 
     /*
      * Javier Gil Puian
-     * @since 3.0
-     * @version 3.0
-     * Mejora de codigo,pulido
+     * @since 3.1
+     * @version 3.1
+     * Corrector añadido
      */
 
     static void menu() {
@@ -48,7 +48,8 @@ public class Clase {
         double num1, num2, resultado;
         int numeroDeOps;
         char operacionARealizar;
-        int contadorOperaciones = 0; // 
+        int contadorOperaciones = 0; // contador de operaciones válidas
+        int contadorErrores = 0;     // contador de errores
 
         System.out.print("Introduce cuantas operaciones aleatorias quieres hacer: ");
         numeroDeOps = scanner.nextInt();
@@ -63,6 +64,7 @@ public class Clase {
             if (operacionARealizar == '/' && num2 == 0) {
                 System.out.println("ERROR: No se puede dividir entre 0. Se repite la operación.");
                 i--;
+                contadorErrores++;
                 continue;
             }
 
@@ -71,13 +73,15 @@ public class Clase {
             if (resultado < 0) {
                 System.out.println("ERROR: El resultado no puede ser negativo. Se repite la operación.");
                 i--;
+                contadorErrores++;
             } else {
                 System.out.printf("%.2f %c %.2f = %.2f\n", num1, operacionARealizar, num2, resultado);
-                contadorOperaciones++; // <-- añadido
+                contadorOperaciones++;
             }
         }
 
-        System.out.println("Operaciones realizadas: " + contadorOperaciones); 
+        System.out.println("Operaciones realizadas: " + contadorOperaciones);
+        System.out.println("Errores cometidos: " + contadorErrores);
     }
 
 
@@ -85,7 +89,8 @@ public class Clase {
         double num1, num2, resultado;
         int numeroDeOps;
         char operacionARealizar;
-        int contadorOperaciones = 0; // <-- añadido
+        int contadorOperaciones = 0;
+        int contadorErrores = 0; // contador de errores
 
         System.out.print("Introduce cuantas operaciones quieres hacer: ");
         numeroDeOps = scanner.nextInt();
@@ -99,6 +104,7 @@ public class Clase {
             if (operacionARealizar == '/' && num2 == 0) {
                 System.out.println("ERROR: No se puede dividir entre 0. Se repite la operación.");
                 i--;
+                contadorErrores++;
                 continue;
             }
 
@@ -106,14 +112,16 @@ public class Clase {
 
             if (resultado < 0) {
                 System.out.println("ERROR: El resultado no puede ser negativo. Se repite la operación.");
-                i--; // repetir
+                i--;
+                contadorErrores++;
             } else {
                 System.out.printf("%.2f %c %.2f = %.2f\n", num1, operacionARealizar, num2, resultado);
-                contadorOperaciones++; // <-- añadido
+                contadorOperaciones++;
             }
         }
 
-        System.out.println("Operaciones realizadas: " + contadorOperaciones); // <-- añadido
+        System.out.println("Operaciones realizadas: " + contadorOperaciones);
+        System.out.println("Errores cometidos: " + contadorErrores);
     }
 
 
@@ -154,4 +162,3 @@ public class Clase {
         menu();
     }
 }
-
