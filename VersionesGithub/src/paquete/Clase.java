@@ -1,12 +1,14 @@
 package paquete;
+
 import java.util.Scanner;
 public class Clase {
 
 	/*
-    * Merye Dahmani
-    * @since 1.6
-    * @version 1.6
-    * Realiza una operacion mas complicada
+    * Felix Trejo Baquero
+    * @since 1.7
+    * @version 1.7
+    * Añadimos un array
+
 
     */
 	
@@ -17,7 +19,7 @@ public class Clase {
             
             System.out.println("Introduce el segundo numero");
             int num2  = sc.nextInt();
-
+            int[] Array = new int[5];
             System.out.printf("%d + %d = %d\n", num1, num2, num1 + num2);
             System.out.printf("%d - %d = %d\n", num1, num2, num1 - num2);
             System.out.printf("%d * %d = %d\n", num1, num2, num1 * num2);
