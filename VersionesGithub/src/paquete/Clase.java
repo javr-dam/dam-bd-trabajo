@@ -11,8 +11,8 @@ public class Clase {
 
     /*
      * Francisco Javier Rodriguez Meneses
-     * @since 2.3
-     * @version 2.3
+     * @since 2.4
+     * @version 2.4
      * Se añade control de excepciones para evitar errores si el usuario introduce letras.
      */
 
@@ -77,6 +77,8 @@ public class Clase {
     }
 
     public static void main(String[] args) {
+          System.out.println("Bienvenido al programa de       operaciones aleatorias");
+    primeraFuncion();
         primeraFuncion();
     }
 }
